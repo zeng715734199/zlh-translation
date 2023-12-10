@@ -36,10 +36,12 @@ const errorMap = {
 export const translate = (word: string) => {
     const salt = Math.random() //随机数
     const sign = convertMd5(`${appId + word + salt + appSecret}`)    //sign 是appid+q+salt+密钥的md5值，为了不暴露这里先用???
+    const reg = /[a-zA-Z]+/
+
     const query = querystring.stringify({
         q: word,
-        from: 'en',
-        to: 'zh',
+        from: reg.test(word) ? 'en' : 'zh',
+        to: reg.test(word) ? 'zh' : 'en',
         appid: appId,
         salt,
         sign
@@ -61,7 +63,7 @@ export const translate = (word: string) => {
             const response: BaiduResponse = JSON.parse(string)
             if (response.error_code) {
                 //errorMap里有，就输出错误码对应的中文提示
-                console.error(errorMap[response.error_code] || response.error_msg)
+                console.error((errorMap as Record<string, string>)[response.error_code] || response.error_msg)
                 process.exit(2)  //报错的话，退出进程，这个code只要不是0即可
             } else {
                 console.log(response.trans_result['0'].dst)

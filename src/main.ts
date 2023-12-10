@@ -3,13 +3,25 @@ import * as https from "https";
 import * as querystring from "querystring";
 import {appId, appSecret} from "./private";
 
+//声明响应类型
+type BaiduResponse = {
+    error_code?: string;
+    error_msg?: string;
+    from: string;
+    to: string;
+    trans_result: {
+        src: string;
+        dst: string;
+    }[]
+}
+
 
 // 计算 MD5
 const convertMd5 = (str: string) =>
     crypto.createHash('md5').update(str).digest('hex');
 
 export const translate = (word: string) => {
-    const salt = 1435660288 //随机数
+    const salt = Math.random() //随机数
     const sign = convertMd5(`${appId + word + salt + appSecret}`)    //sign 是appid+q+salt+密钥的md5值，为了不暴露这里先用???
     const query = querystring.stringify({
         q: word,
@@ -32,8 +44,16 @@ export const translate = (word: string) => {
             chunks.push(chunk)
         });
         response.on('end', () => {
-            const response = Buffer.concat(chunks).toString()
-            console.log(response, 'response')
+            const string = Buffer.concat(chunks).toString()
+            const response: BaiduResponse = JSON.parse(string)
+            //错误处理，有错误码就打出错误信息，没有就打出结果
+            if (response.error_code) {
+                console.error(response.error_msg)
+                process.exit(2)  //报错的话，退出进程，这个code只要不是0即可
+            } else {
+                console.log(response.trans_result['0'].dst)
+                process.exit(0)  //0表示没有错误，即成功
+            }
         })
     }).on('error', (e) => {
         console.error(e);

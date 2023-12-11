@@ -9,7 +9,7 @@ program
     .name('fy')
     .usage('<English>')
     .argument('<English>', 'input English words')
-    .action((word) => {   //word 就是命令 ts-node-dev src/cli.ts hello 中的hello
+    .action((word) => {
         translate(word);
     });
 

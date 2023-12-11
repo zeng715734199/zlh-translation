@@ -61,9 +61,8 @@ export const translate = (word: string) => {
             const string = Buffer.concat(chunks).toString()
             const response: BaiduResponse = JSON.parse(string)
             if (response.error_code) {
-                //errorMap里有，就输出错误码对应的中文提示
                 console.error((errorMap as Record<string, string>)[response.error_code] || response.error_msg)
-                process.exit(2)  //报错的话，退出进程，这个code只要不是0即可
+                process.exit(2)
             } else {
                 console.log(response.trans_result['0'].dst)
                 process.exit(0)  //0表示没有错误，即成功

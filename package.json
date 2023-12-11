@@ -1,8 +1,14 @@
 {
-  "name": "translation-utils",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "zlh-translation",
+  "version": "0.0.1",
+  "main": "dist/main.js",
   "license": "MIT",
+  "bin": {
+    "trans": "dist/cli.js"
+  },
+  "files": [
+    "dist/**/*.js"
+  ],
   "scripts": {
     "dev": "ts-node-dev src/cli.ts"
   },

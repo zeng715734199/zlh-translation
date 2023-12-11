@@ -30,7 +30,6 @@ const errorMap = {
     58001: '译文语言方向不支持',
     58002: '当前服务器已关闭',
     90107: '认证未通过或者未生效',
-    unknown: '服务器繁忙'
 }
 
 export const translate = (word: string) => {

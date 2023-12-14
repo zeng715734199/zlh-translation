@@ -1,5 +1,62 @@
-import * as crypto from 'crypto'
+import * as crypto from "crypto";
+import * as p from "path";
+import * as fs from "fs";
+import * as inquirer from "inquirer";
 
 // 计算 MD5
-export const convertMd5 = (str: string) =>
-    crypto.createHash('md5').update(str).digest('hex');
+export const convertMd5 = (str: string) => crypto.createHash("md5").update(str).digest("hex");
+
+//密钥id文件路径
+export const filePath = p.join(__dirname, "private.ts");
+
+//输出错误函数
+export const errorCb = (msg: Error | string) => {
+  console.error(msg);
+  process.exit(2);
+};
+
+//输出成功函数
+export const successCb = (msg = "") => {
+  console.log(msg || "✨ Success!");
+  process.exit(0);
+};
+
+//写入private.ts文件
+type SECRETINFO = { APP_ID: string; APP_SECRET: string };
+export const writePrivateInfo = (filePath: string, { APP_ID, APP_SECRET }: SECRETINFO) => {
+  //先删除再写入，防止重复写入
+  fs.unlink(filePath, (err) => {
+    const data =
+      `export const APP_ID = "${APP_ID}"` + "\n" + `export const APP_SECRET = "${APP_SECRET}"`;
+    fs.writeFile(filePath, data, { flag: "a+" }, (err) => {
+      if (err) errorCb(err);
+      //文件结束后再把它设置为只读
+      fs.chmod(filePath, 0o400, (err) => (err ? errorCb(err) : successCb()));
+    });
+  });
+};
+
+//选择词库源平台下拉框
+export const chooseOriginPlatform = async (choices: Array<{ name: string; value: string }>) => {
+  return await inquirer.prompt({
+    type: "list",
+    name: "key",
+    message: "请选择词库源：",
+    choices,
+  });
+};
+
+//输入框
+export const inputTemp = async ({
+  name,
+  message,
+}: {
+  name: string;
+  message: string;
+}): Promise<Record<string, string>> => {
+  return await inquirer.prompt({
+    type: "input",
+    name,
+    message,
+  });
+};

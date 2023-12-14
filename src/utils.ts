@@ -21,7 +21,7 @@ export const successCb = (msg = "") => {
   process.exit(0);
 };
 
-//写入private.ts文件
+//写入private.ts文件（只读且不提交）
 type SECRETINFO = { APP_ID: string; APP_SECRET: string };
 export const writePrivateInfo = (filePath: string, { APP_ID, APP_SECRET }: SECRETINFO) => {
   //先删除再写入，防止重复写入
@@ -36,18 +36,8 @@ export const writePrivateInfo = (filePath: string, { APP_ID, APP_SECRET }: SECRE
   });
 };
 
-//选择词库源平台下拉框
-export const chooseOriginPlatform = async (choices: Array<{ name: string; value: string }>) => {
-  return await inquirer.prompt({
-    type: "list",
-    name: "key",
-    message: "请选择词库源：",
-    choices,
-  });
-};
-
 //输入框
-export const inputTemp = async ({
+export const inputCommanderTemp = async ({
   name,
   message,
 }: {

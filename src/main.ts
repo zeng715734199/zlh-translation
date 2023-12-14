@@ -75,7 +75,7 @@ export const translate = (word: string) => {
               (errorMap as Record<string, string>)[response.error_code] ||
                 (response.error_msg as string),
             )
-          : successCb(response.trans_result["0"].dst); //0表示没有错误，即成功
+          : successCb(`${response.trans_result["0"].src}: ${response.trans_result["0"].dst}`); //0表示没有错误，即成功
       });
     })
     .on("error", (e) => {

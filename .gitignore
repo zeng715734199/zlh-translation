@@ -1,4 +1,4 @@
-/src/private.ts
+/src/private.js
 node_modules
 yarn.lock
 yarn-error.log

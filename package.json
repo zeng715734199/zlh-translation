@@ -10,7 +10,8 @@
     "dist/**/*.js"
   ],
   "scripts": {
-    "dev": "ts-node-dev src/cli.ts"
+    "dev": "ts-node-dev src/cli.ts",
+    "tsc": "rm -rf dist && tsc"
   },
   "dependencies": {
     "commander": "^11.1.0",

@@ -6,17 +6,15 @@ import * as inquirer from "inquirer";
 import { errorCb, filePath, writePrivateInfo, inputCommanderTemp } from "./utils";
 
 const program = new Command();
-program.option("-i, --init", "Initialize appid and app_secret");
 
 program
   .version("0.0.1")
   .name("fy")
   .usage("<English>")
-  .description("You must initialize the 'fy' command before using it.");
+  .description("You must use the 'fy' command to initialize before using 'fy <English> '.");
 
-if (!process.argv[2]) process.exit(2);
-
-if (["-i", "--init"].includes(process.argv[2])) {
+//参数不存在直接初始化
+if (!process.argv[2]) {
   inquirer
     .prompt({
       type: "list",
@@ -38,11 +36,12 @@ if (["-i", "--init"].includes(process.argv[2])) {
         });
       }
     });
-} else {
+}
+if (process.argv[2] && process.argv[2][0] !== "-") {
   //存在，进行翻译
   fs.existsSync(filePath)
     ? translate(process.argv[2])
-    : errorCb("You must use -i or --init command to initialize before this!");
+    : errorCb("You must use 'fy' command to initialize before this!");
 }
 
 program.parse(process.argv);

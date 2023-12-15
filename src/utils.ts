@@ -7,7 +7,7 @@ import * as inquirer from "inquirer";
 export const convertMd5 = (str: string) => crypto.createHash("md5").update(str).digest("hex");
 
 //密钥id文件路径
-export const filePath = p.join(__dirname, "private.ts");
+export const filePath = p.join(__dirname, "private.js");
 
 //输出错误函数
 export const errorCb = (msg: Error | string) => {
@@ -26,11 +26,10 @@ type SECRETINFO = { APP_ID: string; APP_SECRET: string };
 export const writePrivateInfo = (filePath: string, { APP_ID, APP_SECRET }: SECRETINFO) => {
   //先删除再写入，防止重复写入
   fs.unlink(filePath, (err) => {
-    const data =
-      `export const APP_ID = "${APP_ID}"` + "\n" + `export const APP_SECRET = "${APP_SECRET}"`;
+    const data = `exports.APP_ID = "${APP_ID}"` + "\n" + `exports.APP_SECRET = "${APP_SECRET}"`;
     fs.writeFile(filePath, data, { flag: "a+" }, (err) => {
       if (err) errorCb(err);
-      //文件结束后再把它设置为只读
+      //写入结束后再把它设置为只读
       fs.chmod(filePath, 0o400, (err) => (err ? errorCb(err) : successCb()));
     });
   });

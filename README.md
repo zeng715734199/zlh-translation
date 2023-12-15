@@ -26,3 +26,4 @@ fy hello
 fy 你好
 `
 
+You can also use the - h or -- help command to get help information.

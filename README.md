@@ -13,11 +13,16 @@ It's only support English to Chinese or Chinese to English nowadays.
 
 # Usage
 
+Use the `fy` command to initialize before using `fy <Words>`.
+
+When you initialized, you can use `fy <Words>` command, such as:
+
+
 `
-trans hello
+fy hello
 `
 
 `
-trans 你好
+fy 你好
 `
 

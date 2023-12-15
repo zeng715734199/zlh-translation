@@ -10,8 +10,8 @@ const program = new Command();
 program
   .version("0.0.1")
   .name("fy")
-  .usage("<English>")
-  .description("You must use the 'fy' command to initialize before using 'fy <English> '.");
+  .usage("<Words>")
+  .description("You must use the 'fy' command to initialize before using 'fy <Words> '.");
 
 //参数不存在直接初始化
 if (!process.argv[2]) {

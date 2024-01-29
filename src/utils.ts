@@ -43,7 +43,7 @@ export const inputCommanderTemp = async ({
   name: string;
   message: string;
 }): Promise<Record<string, string>> => {
-  return await inquirer.prompt({
+  return inquirer.prompt({
     type: "input",
     name,
     message,

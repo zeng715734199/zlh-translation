@@ -43,8 +43,7 @@ export const translate = (word: string) => {
 
   const salt = Math.random(); //随机数
   const sign = convertMd5(`${appId + word + salt + appSecret}`); //sign 是appid+q+salt+密钥的md5值，为了不暴露这里先用???
-  const reg = /^[A-Za-z]+$/;
-
+  const reg = /^[A-Za-z\s.,!?]+$/;
   const query = querystring.stringify({
     q: word,
     from: reg.test(word) ? "en" : "zh",

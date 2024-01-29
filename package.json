@@ -4,7 +4,7 @@
   "main": "dist/main.js",
   "license": "MIT",
   "bin": {
-    "trans": "dist/cli.js"
+    "fy": "dist/cli.js"
   },
   "files": [
     "dist/**/*.js"
